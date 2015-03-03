@@ -15,8 +15,8 @@ def get_attacker_info(ip_addr):
         country = ip_lookup.lookup()['asn_country_code']
     abuse = ip_lookup.lookup()['nets'][-1]['abuse_emails']
     cidr = ip_lookup.lookup()['nets'][-1]['cidr']
-    return {"asn": asn, "country": country, "abuse_email": abuse,
-            "cidr": cidr, "ip_addr": ip_addr}
+    return {"asn": asn, "country": country, "abuse_email": abuse, "cidr": cidr,
+            "ip_addr": ip_addr, "blacklist_date": None, "log_data": None}
 
 
 if __name__ == "__main__":
