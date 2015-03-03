@@ -1,5 +1,10 @@
-#!/usr/bin/env python
+#!/bin/env python
+
+import time
 from ipwhois import IPWhois
+
+
+today = (time.strftime("%Y-%m-%d"))
 
 
 def get_attacker_info(ip_addr):
@@ -10,7 +15,8 @@ def get_attacker_info(ip_addr):
         country = ip_lookup.lookup()['asn_country_code']
     abuse = ip_lookup.lookup()['nets'][-1]['abuse_emails']
     cidr = ip_lookup.lookup()['nets'][-1]['cidr']
-    return {"asn": asn, "country": country, "abuse_email": abuse, "cidr": cidr, "ip_addr": ip_addr}
+    return {"asn": asn, "country": country, "abuse_email": abuse,
+            "cidr": cidr, "ip_addr": ip_addr}
 
 
 if __name__ == "__main__":
@@ -33,6 +39,17 @@ if __name__ == "__main__":
             attacker_info = get_attacker_info(ip_address)
             attacker_info['blacklist_date'] = date
             lookup_list.append(attacker_info)
+            day = date.split(' ')[0]
+            if day == today:
+                ssh_file = open('/var/log/secure', 'r')
+                ssh_log = []
+                for line in ssh_file:
+                    if ip_address in line:
+                        ssh_log.append(line.strip('\n'))
+                ssh_file.close()
+                attacker_info['log_data'] = ssh_log
+            else:
+                attacker_info['log_data'] = None
             print attacker_info
     log_file.close()
 
