@@ -32,14 +32,12 @@ if __name__ == "__main__":
     log_file = open('/var/log/denyhosts', 'r')
     for log_entry in iter(log_file):
         if 'new denied hosts' in log_entry:
-            date = log_entry.split(',')
-            date = date[0]
-            ip_address = log_entry.split(' ')[-1]
-            ip_address = ip_address.strip('\'[').split('\'')[0]
+            date = log_entry.split(',')[0]
+            ip_address = log_entry.split(' ')[-1].strip('\'[').split('\'')[0]
+            day = date.split(' ')[0]
             attacker_info = get_attacker_info(ip_address)
             attacker_info['blacklist_date'] = date
             lookup_list.append(attacker_info)
-            day = date.split(' ')[0]
             if day == today:
                 ssh_file = open('/var/log/secure', 'r')
                 ssh_log = []
