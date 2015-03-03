@@ -23,3 +23,7 @@ Sample output:
 ```
 {'ip_addr': '112.95.167.111', 'blacklist_date': '2015-02-18 02:32:51', 'country': 'CN', 'abuse_email': 'abuse@cnc-noc.net', 'log_data': None, 'cidr': '112.88.0.0/13', 'asn': '17623'}
 ```
+
+Future:
+
+The future of this project is to have a central database that will allow individuals to post data into it via an API. With this information aggregated, a scoring system could be created that would allow people to see top attacking hosts. With abuse email addresses and log data, You can also automate abuse emails to providers and inform them of compromised hosts. 
